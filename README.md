@@ -12,6 +12,7 @@ This is a python script that will help you build the ReVanced Android app with n
 ## Requirements
 
 - Python 3.6 or higher
+- Java Zulu 17
 
 ## Usage
 
