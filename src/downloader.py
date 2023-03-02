@@ -82,6 +82,9 @@ class Downloader:
                     if package["name"] == app[app_name]["name"]:
                         versions = package["versions"]
 
+                        if len(versions) == 0:
+                            continue
+
                         version = max(versions, key=StrictVersion)
 
                         page = (
