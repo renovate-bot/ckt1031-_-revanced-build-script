@@ -1,0 +1,73 @@
+name: Build Revanced Apps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-youtube:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - uses: actions/setup-python@v4
+        with:
+          cache: pip
+          python-version: "pypy3.9"
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Build
+        run: python main.py --app youtube
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: revanced-youtube
+          path: |
+            revanced-cache/output-youtube_signed.apk
+
+  build-youtube-music:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - uses: actions/setup-python@v4
+        with:
+          cache: pip
+          python-version: "pypy3.9"
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Build
+        run: python main.py --app youtube-music
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: revanced-youtube
+          path: |
+            revanced-cache/output-youtube-music_signed.apk
