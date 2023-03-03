@@ -18,7 +18,7 @@ class Build(object):
         self.download_files = Downloader().download_required()
 
     def runBuild(self):
-        target_app = self.args.app
+        target_app = self.args.app_name
 
         input_apk_filepath = Downloader().download_apk(target_app)
 

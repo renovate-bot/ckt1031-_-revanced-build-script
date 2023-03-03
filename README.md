@@ -26,14 +26,14 @@ git clone https://github.com/ckt1031/revanced-build-script.git
 
 ```bash
 pip install -r requirements.txt
-python main.py --app [app]
+python main.py [app]
 ```
 
 - The script will automatically download the latest ReVanced APK and build it for you
 
 ## Arguments
 
-- `--app` or `-a` - The app you want to build. Available options are `youtube`, `youtube-music`
+- `app` - The app you want to build. Available options are `youtube`, `youtube-music`
 
 ## Credits
 

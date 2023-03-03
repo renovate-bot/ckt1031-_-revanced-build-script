@@ -5,14 +5,17 @@ from distutils.version import StrictVersion
 import requests
 from colorama import Fore, Style
 
-from src._config import config
+from src._config import config, app_reference
 from src.apkmirror import APKmirror
 
 
 class Downloader:
     def __init__(self):
         self.session = requests.Session()
-        self.session.headers["User-Agent"] = "anything"
+        self.session.headers["User-Agent"] = (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101"
+            + " Firefox/110.0"
+        )
 
     def _download(self, url: str, name: str) -> str:
         filepath = f"./{config['dist_dir']}/{name}"
@@ -33,6 +36,7 @@ class Downloader:
                     f.write(chunk)
 
         print(Fore.GREEN + f"✅ {filepath} downloaded" + Style.RESET_ALL)
+
         return filepath
 
     def download_required(self):
@@ -65,21 +69,9 @@ class Downloader:
         with open(f"./{config['dist_dir']}/patches.json", "r") as patches_file:
             patches = json.load(patches_file)
 
-            # Reference APK app name
-            app = {
-                "youtube": {
-                    "name": "com.google.android.youtube",
-                    "apkmirror": "google-inc/youtube/youtube",
-                },
-                "youtube-music": {
-                    "name": "com.google.android.apps.youtube.music",
-                    "apkmirror": "google-inc/youtube-music/youtube-music",
-                },
-            }
-
             for patch in patches:
                 for package in patch["compatiblePackages"]:
-                    if package["name"] == app[app_name]["name"]:
+                    if package["name"] == app_reference[app_name]["name"]:
                         versions = package["versions"]
 
                         if len(versions) == 0:
@@ -88,14 +80,13 @@ class Downloader:
                         version = max(versions, key=StrictVersion)
 
                         page = (
-                            "https://www.apkmirror.com/apk/"
-                            + f"{app[app_name]['apkmirror']}-{version}-release/"
+                            f"{app_reference[app_name]['apkmirror']}-{version}-release/"
                         )
 
                         download_page = APKmirror().get_download_page(url=page)
 
                         href = APKmirror().extract_download_link(download_page)
 
-                        filename = f"{app[app_name]['name']}-{version}.apk"
+                        filename = f"{app_reference[app_name]['name']}-{version}.apk"
 
                         return self._download(href, filename)

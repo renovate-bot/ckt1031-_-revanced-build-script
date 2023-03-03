@@ -6,7 +6,16 @@ from src.build import Build
 def main():
     parser = argparse.ArgumentParser("revanced_build")
 
-    parser.add_argument("--app", help="Target build app", type=str)
+    # Target build app
+    parser.add_argument("app_name", help="Target build app", type=str)
+
+    # Exclude Patches: patch1,patch2,patch3
+    parser.add_argument(
+        "--exclude-patches",
+        help="Exclude patches from build",
+        type=str,
+        default="",
+    )
 
     args = parser.parse_args()
 
