@@ -1,6 +1,5 @@
 import json
 import os
-from distutils.version import StrictVersion
 
 import requests
 
@@ -68,15 +67,16 @@ class Downloader:
             for patch in patches:
                 for package in patch["compatiblePackages"]:
                     if package["name"] == app_reference[app_name]["name"]:
-                        versions = package["versions"]
+                        version = package["versions"]
 
-                        if len(versions) == 0:
+                        if len(version) == 0:
                             continue
 
-                        version = max(versions, key=StrictVersion)
+                        version = version[-1]
 
                         page = (
-                            f"{app_reference[app_name]['apkmirror']}-{version}-release/"
+                            f"{app_reference[app_name]['apkmirror']}"
+                            + "-{version.replace('.', '-')}-release/"
                         )
 
                         download_page = APKmirror().get_download_page(url=page)

@@ -13,4 +13,12 @@ app_reference = {
         "apkmirror": "https://www.apkmirror.com/apk/google-inc"
         + "/youtube-music/youtube-music",
     },
+    "twitter": {
+        "name": "com.twitter.android",
+        "apkmirror": "https://www.apkmirror.com/apk/twitter-inc/twitter/twitter",
+    },
+    "reddit": {
+        "name": "com.reddit.frontpage",
+        "apkmirror": "https://www.apkmirror.com/apk/redditinc/reddit/reddit",
+    },
 }
