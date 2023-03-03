@@ -3,8 +3,9 @@ import subprocess
 
 from colorama import Fore, Style
 
-from src._config import config
+from src._config import config, app_reference
 from src.downloader import Downloader
+from src.logger import Logger
 
 
 class Build(object):
@@ -12,6 +13,20 @@ class Build(object):
         # Generate the build dir if it doesn't exist
         if not os.path.exists(config["dist_dir"]):
             os.mkdir(config["dist_dir"])
+
+        # Check if the keystore exists
+        if not os.path.exists(config["keystore_path"]):
+            Logger().error(
+                f"The keystore file does not exist at {config['keystore_path']}"
+            )
+            exit(1)
+
+        # Check if app_name is valid
+        if args.app_name not in app_reference:
+            Logger().error(
+                f"Invalid app name. Valid apps are: {', '.join(app_reference.keys())}"
+            )
+            exit(1)
 
         self.args = args
         self.check_java_version()
@@ -22,7 +37,7 @@ class Build(object):
 
         input_apk_filepath = Downloader().download_apk(target_app)
 
-        print(Fore.BLUE + f"🔥 Running build for {target_app}:" + Style.RESET_ALL)
+        Logger().info(f"🔥 Running build for {target_app}:")
 
         # Run the build
         process = subprocess.Popen(
@@ -61,6 +76,7 @@ class Build(object):
         ).decode("utf-8")
 
         if "17" not in version:
-            raise Exception(Fore.RED + "Java 17 is required to run the build.")
+            Logger().error("Java 17 is required to run the build.")
+            exit(1)
 
-        print(Fore.GREEN + "✅ Java 17 is installed" + Style.RESET_ALL)
+        Logger().success(Fore.GREEN + "Java 17 is installed" + Style.RESET_ALL)

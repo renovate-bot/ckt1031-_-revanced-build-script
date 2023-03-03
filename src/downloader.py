@@ -3,10 +3,10 @@ import os
 from distutils.version import StrictVersion
 
 import requests
-from colorama import Fore, Style
 
 from src._config import config, app_reference
 from src.apkmirror import APKmirror
+from src.logger import Logger
 
 
 class Downloader:
@@ -22,11 +22,7 @@ class Downloader:
 
         # Check if the tool exists
         if os.path.exists(filepath):
-            print(
-                Fore.YELLOW
-                + f"⚠️ {filepath} already exists, skipping"
-                + Style.RESET_ALL
-            )
+            Logger().warning(f"{filepath} already exists, skipping")
             return filepath
 
         with self.session.get(url, stream=True) as r:
@@ -35,12 +31,12 @@ class Downloader:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-        print(Fore.GREEN + f"✅ {filepath} downloaded" + Style.RESET_ALL)
+        Logger().success(f"{filepath} downloaded")
 
         return filepath
 
     def download_required(self):
-        print(Fore.BLUE + "⬇️ Downloading required resources" + Style.RESET_ALL)
+        Logger().info("⬇️  Downloading required resources")
 
         # Get the tool list
         tools = requests.get("https://releases.revanced.app/tools").json()
