@@ -1,7 +1,8 @@
 import json
 import os
-from src.logger import Logger
+
 from src._config import app_reference, config
+from src.logger import Logger
 
 
 class Validation:

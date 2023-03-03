@@ -3,7 +3,7 @@ import os
 
 import requests
 
-from src._config import config, app_reference
+from src._config import app_reference, config
 from src.apkmirror import APKmirror
 from src.logger import Logger
 
