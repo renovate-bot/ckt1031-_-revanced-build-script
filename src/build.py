@@ -1,8 +1,6 @@
 import os
 import subprocess
 
-from colorama import Fore, Style
-
 from src._config import config
 from src.downloader import Downloader
 from src.logger import Logger
@@ -33,7 +31,7 @@ class Build(object):
 
         Logger().info(f"🔥 Running build for {target_app}:")
 
-        # Run the build
+        # Run the build command
         process = subprocess.Popen(
             [
                 "java",
@@ -67,9 +65,17 @@ class Build(object):
             print(line.decode("utf-8"), end="")
 
         if not output:
-            raise Exception(
-                Fore.RED + "An error occurred while running the Java program"
-            )
+            Logger().error("An error occurred while running the Java program")
+            exit(1)
+
+        output_path = f"./revanced-cache/output-{target_app}_signed.apk"
+
+        # Check if the output file exists
+        if not os.path.exists(output_path):
+            Logger().error(f"An error occurred while building {target_app}")
+            exit(1)
+
+        Logger().success(f"Build completed successfully: {output_path}")
 
     def check_java_version(self):
         version = subprocess.check_output(
@@ -80,4 +86,4 @@ class Build(object):
             Logger().error("Java 17 is required to run the build.")
             exit(1)
 
-        Logger().success(Fore.GREEN + "Java 17 is installed" + Style.RESET_ALL)
+        Logger().success("Java 17 is installed")

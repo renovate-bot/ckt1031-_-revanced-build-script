@@ -3,7 +3,7 @@ from colorama import Fore, Style
 
 class Logger:
     def success(self, message):
-        print(Fore.RED + f"✅ {message}" + Style.RESET_ALL)
+        print(Fore.GREEN + f"✅ {message}" + Style.RESET_ALL)
 
     def info(self, message):
         print(Fore.BLUE + f"{message}" + Style.RESET_ALL)

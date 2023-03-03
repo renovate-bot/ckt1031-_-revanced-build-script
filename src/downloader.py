@@ -76,7 +76,7 @@ class Downloader:
 
                         page = (
                             f"{app_reference[app_name]['apkmirror']}"
-                            + "-{version.replace('.', '-')}-release/"
+                            + f"-{version.replace('.', '-')}-release/"
                         )
 
                         download_page = APKmirror().get_download_page(url=page)
