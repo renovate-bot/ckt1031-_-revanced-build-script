@@ -3,9 +3,10 @@ import subprocess
 
 from colorama import Fore, Style
 
-from src._config import config, app_reference
+from src._config import config
 from src.downloader import Downloader
 from src.logger import Logger
+from src.validation import Validation
 
 
 class Build(object):
@@ -14,26 +15,19 @@ class Build(object):
         if not os.path.exists(config["dist_dir"]):
             os.mkdir(config["dist_dir"])
 
-        # Check if the keystore exists
-        if not os.path.exists(config["keystore_path"]):
-            Logger().error(
-                f"The keystore file does not exist at {config['keystore_path']}"
-            )
-            exit(1)
-
-        # Check if app_name is valid
-        if args.app_name not in app_reference:
-            Logger().error(
-                f"Invalid app name. Valid apps are: {', '.join(app_reference.keys())}"
-            )
-            exit(1)
+        Validation().check_keystore()
+        Validation().check_app_name(args.app_name)
 
         self.args = args
         self.check_java_version()
         self.download_files = Downloader().download_required()
 
+        # Validate the patches from exclude_patches
+        if self.args.exclude_patches:
+            Validation().check_patch_from_args(self.args.exclude_patches)
+
     def runBuild(self):
-        target_app = self.args.app_name
+        target_app = self.args.app_name.lower().strip()
 
         input_apk_filepath = Downloader().download_apk(target_app)
 
@@ -51,11 +45,18 @@ class Build(object):
                 input_apk_filepath,
                 "--out",
                 f"./{config['dist_dir']}/output-{target_app}.apk",
-                "-m",
+                "--merge",
                 self.download_files["revanced-integrations"],
                 "--keystore",
                 config["keystore_path"],
-            ],
+            ]
+            + sum(
+                [
+                    ["--exclude", s.strip()]
+                    for s in self.args.exclude_patches.split(",")
+                ],
+                [],
+            ),
             stdout=subprocess.PIPE,
         )
 

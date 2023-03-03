@@ -12,7 +12,7 @@ class Logger:
         print(Fore.RED + f"❌ {message}" + Style.RESET_ALL)
 
     def warning(self, message):
-        print(Fore.YELLOW + f"⚠️  {message}" + Style.RESET_ALL)
+        print(Fore.YELLOW + f"⚠️ {message}" + Style.RESET_ALL)
 
     def log(self, message):
         print(message)

@@ -36,7 +36,7 @@ class Downloader:
         return filepath
 
     def download_required(self):
-        Logger().info("⬇️  Downloading required resources")
+        Logger().info("⬇️ Downloading required resources")
 
         # Get the tool list
         tools = requests.get("https://releases.revanced.app/tools").json()
