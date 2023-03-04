@@ -4,7 +4,6 @@ version = "0.0.0"
 description = "ReVanced Build Scripts Wrapper"
 authors = ["cktsun1031 <65409152+cktsun1031@users.noreply.github.com>"]
 readme = "README.md"
-packages = [{ include = "revanced_build_script" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
