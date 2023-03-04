@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "revanced-build-script"
+version = "0.0.0"
+description = "ReVanced Build Scripts Wrapper"
+authors = ["cktsun1031 <65409152+cktsun1031@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{ include = "revanced_build_script" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+selectolax = "^0.3.12"
+requests = "^2.28.2"
+colorama = "^0.4.6"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.254"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

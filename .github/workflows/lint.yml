@@ -14,17 +14,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install Poetry
+        run: pipx install poetry
+
       - uses: actions/setup-python@v4
         with:
-          cache: "pip"
+          cache: poetry
           python-version: 3.11.2
 
       - name: Install Dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
+        run: poetry install
 
       - name: Run Lint
-        run: |
-          pip install ruff
-          ruff check .
+        run: ruff check .
