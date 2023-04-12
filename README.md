@@ -33,7 +33,7 @@ python main.py [app]
 
 ## Arguments
 
-- `app` - The app you want to build. Available options are `youtube`, `youtube-music`
+- `app` - The app you want to build. Available options are `youtube`, `youtube-music`, `twitter`, `reddit`
 
 ## Credits
 
