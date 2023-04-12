@@ -18,19 +18,16 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      - name: Install Poetry
-        run: pipx install poetry
-
       - uses: actions/setup-python@v4
         with:
-          cache: poetry
-          python-version: 3.11.2
+          cache: pip
+          python-version: 3.11.3
 
       - name: Install Dependencies
-        run: poetry install
+        run: pip install -r requirements.txt
 
       - name: Run Build
-        run: poetry run python main.py youtube
+        run: python main.py youtube
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
@@ -53,19 +50,16 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      - name: Install Poetry
-        run: pipx install poetry
-
       - uses: actions/setup-python@v4
         with:
-          cache: poetry
+          cache: pip
           python-version: 3.11.2
 
       - name: Install Dependencies
-        run: poetry install
+        run: pip install -r requirements.txt
 
       - name: Run Build
-        run: poetry run python main.py youtube-music
+        run: python main.py youtube-music
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
@@ -88,19 +82,16 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      - name: Install Poetry
-        run: pipx install poetry
-
       - uses: actions/setup-python@v4
         with:
-          cache: poetry
+          cache: pip
           python-version: 3.11.2
 
       - name: Install Dependencies
-        run: poetry install
+        run: pip install -r requirements.txt
 
       - name: Run Build
-        run: poetry run python main.py twitter
+        run: python main.py twitter
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
@@ -123,19 +114,16 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      - name: Install Poetry
-        run: pipx install poetry
-
       - uses: actions/setup-python@v4
         with:
-          cache: poetry
+          cache: pip
           python-version: 3.11.2
 
       - name: Install Dependencies
-        run: poetry install
+        run: pip install -r requirements.txt
 
       - name: Run Build
-        run: poetry run python main.py reddit
+        run: python main.py reddit
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3

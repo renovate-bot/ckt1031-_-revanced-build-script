@@ -25,7 +25,7 @@ git clone https://github.com/ckt1031/revanced-build-script.git
 - Run the script
 
 ```bash
-poetry install
+pip install -r requirements.txt
 python main.py [app]
 ```
 
