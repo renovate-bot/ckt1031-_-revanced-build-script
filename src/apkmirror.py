@@ -1,17 +1,19 @@
-import requests
+import httpx
 from selectolax.lexbor import LexborHTMLParser
 
 
 class APKmirror:
     def __init__(self):
-        self.session = requests.Session()
-        self.session.headers["User-Agent"] = (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101"
-            + " Firefox/110.0"
+        self.client = httpx.Client(
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0)"
+                + " Gecko/20100101 Firefox/112.0"
+            },
+            follow_redirects=True,
         )
 
     def get_download_page(self, url: str) -> str:
-        parser = LexborHTMLParser(self.session.get(url, timeout=10).text)
+        parser = LexborHTMLParser(self.client.get(url, timeout=10).text)
 
         apm = parser.css(".apkm-badge")
 
@@ -33,9 +35,9 @@ class APKmirror:
         return "https://www.apkmirror.com" + sub_url
 
     def extract_download_link(self, page: str) -> None:
-        parser = LexborHTMLParser(self.session.get(page).text)
+        parser = LexborHTMLParser(self.client.get(page).text)
 
-        resp = self.session.get(
+        resp = self.client.get(
             "https://www.apkmirror.com"
             + parser.css_first("a.accent_bg").attributes["href"]
         )

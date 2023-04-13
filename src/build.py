@@ -1,9 +1,10 @@
 import os
 import subprocess
 
+from loguru import logger
+
 from src._config import config
 from src.downloader import Downloader
-from src.logger import Logger
 from src.validation import Validation
 
 
@@ -29,7 +30,7 @@ class Build(object):
 
         input_apk_filepath = Downloader().download_apk(target_app)
 
-        Logger().info(f"🔥 Running build for {target_app}:")
+        logger.info(f"Running build for {target_app}:")
 
         # Run the build command
         process = subprocess.Popen(
@@ -65,17 +66,17 @@ class Build(object):
             print(line.decode("utf-8"), end="")
 
         if not output:
-            Logger().error("An error occurred while running the Java program")
+            logger.error("An error occurred while running the Java program")
             exit(1)
 
         output_path = f"./revanced-cache/output-{target_app}_signed.apk"
 
         # Check if the output file exists
         if not os.path.exists(output_path):
-            Logger().error(f"An error occurred while building {target_app}")
+            logger.error(f"An error occurred while building {target_app}")
             exit(1)
 
-        Logger().success(f"Build completed successfully: {output_path}")
+        logger.success(f"Build completed successfully: {output_path}")
 
     def check_java_version(self):
         version = subprocess.check_output(
@@ -83,7 +84,7 @@ class Build(object):
         ).decode("utf-8")
 
         if "17" not in version:
-            Logger().error("Java 17 is required to run the build.")
+            logger.error("Java 17 is required to run the build.")
             exit(1)
 
-        Logger().success("Java 17 is installed")
+        logger.success("Java 17 is installed")

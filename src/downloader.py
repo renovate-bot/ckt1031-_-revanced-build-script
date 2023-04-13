@@ -1,19 +1,21 @@
 import json
 import os
 
-import requests
+import httpx
+from loguru import logger
 
 from src._config import app_reference, config
 from src.apkmirror import APKmirror
-from src.logger import Logger
 
 
 class Downloader:
     def __init__(self):
-        self.session = requests.Session()
-        self.session.headers["User-Agent"] = (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101"
-            + " Firefox/110.0"
+        self.client = httpx.Client(
+            timeout=httpx.Timeout(30.0),
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0)"
+                + " Gecko/20100101 Firefox/112.0"
+            },
         )
 
     def _download(self, url: str, name: str) -> str:
@@ -21,24 +23,24 @@ class Downloader:
 
         # Check if the tool exists
         if os.path.exists(filepath):
-            Logger().warning(f"{filepath} already exists, skipping")
+            logger.warning(f"{filepath} already exists, skipping")
             return filepath
 
-        with self.session.get(url, stream=True) as r:
-            r.raise_for_status()
-            with open(filepath, "wb") as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
+        with httpx.Client(follow_redirects=True).stream("GET", url) as res:
+            res.raise_for_status()
+            with open(filepath, "wb") as file:
+                for chunk in res.iter_bytes(chunk_size=8192):
+                    file.write(chunk)
 
-        Logger().success(f"{filepath} downloaded")
+        logger.success(f"{filepath} downloaded")
 
         return filepath
 
     def download_required(self):
-        Logger().info("⬇️ Downloading required resources")
+        logger.info("Downloading required resources")
 
         # Get the tool list
-        tools = requests.get("https://releases.revanced.app/tools").json()
+        tools = httpx.get("https://releases.revanced.app/tools").json()
 
         # Download the tools
         download_repository = [

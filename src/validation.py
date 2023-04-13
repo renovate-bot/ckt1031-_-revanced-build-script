@@ -1,8 +1,9 @@
 import json
 import os
 
+from loguru import logger
+
 from src._config import app_reference, config
-from src.logger import Logger
 
 
 class Validation:
@@ -16,10 +17,10 @@ class Validation:
             # Check if the patches are valid
             for _patch in args_patch.split(","):
                 if _patch.strip() not in patches:
-                    Logger().error(f"Invalid patch: {_patch.strip()}")
+                    logger.error(f"Invalid patch: {_patch.strip()}")
 
                     # Send the available patches
-                    Logger().log(
+                    logger.log(
                         f"Available patches: {', '.join([p['name'] for p in patches])}"
                     )
 
@@ -28,7 +29,7 @@ class Validation:
     def check_keystore(self):
         # Check if the keystore exists
         if not os.path.exists(config["keystore_path"]):
-            Logger().error(
+            logger.error(
                 f"The keystore file does not exist at {config['keystore_path']}"
             )
             exit(1)
@@ -36,7 +37,7 @@ class Validation:
     def check_app_name(self, name: str):
         # Check if app_name is valid
         if name.lower().strip() not in app_reference:
-            Logger().error(
+            logger.error(
                 f"Invalid app name. Valid apps are: {', '.join(app_reference.keys())}"
             )
             exit(1)
