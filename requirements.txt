@@ -1,4 +1,4 @@
 httpx==0.24.0
 loguru==0.7.0
 ruff==0.0.263
-selectolax==0.3.12
+selectolax==0.3.13
