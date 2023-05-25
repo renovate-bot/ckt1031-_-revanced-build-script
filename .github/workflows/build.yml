@@ -4,23 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       apps-to-build:
-        description: "Choose the apps to build (comma separated)"
+        description: "Choose the apps to build (comma separated) use [\"values\"]"
         required: true
 
 jobs:
-  get-apps-to-build:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - id: set-matrix
-        run: |
-          apps="${{ needs.workflow_dispatch.inputs.apps-to-build }}"
-          IFS=',' read -ra apps_array <<< "$apps"
-          matrix=$(printf ",%s" "${apps_array[@]}")
-          matrix=${matrix:1}
-          echo "::set-output name=matrix::[$matrix]"
-
   build-apps:
     name: Build Apps
     runs-on: ubuntu-latest
@@ -28,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: ${{ fromJson(needs.get-apps-to-build.outputs.matrix) }}
+        app: ${{ fromJson(github.event.inputs.apps-to-build) }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
