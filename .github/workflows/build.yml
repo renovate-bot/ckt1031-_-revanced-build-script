@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: ${{needs.get-apps-to-build.outputs.matrix}}
+        app: ${{ fromJson(needs.get-apps-to-build.outputs.matrix) }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
