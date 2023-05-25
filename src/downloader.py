@@ -1,7 +1,7 @@
 import json
 import os
 
-import httpx
+import requests
 from loguru import logger
 
 from src._config import app_reference, config
@@ -10,12 +10,12 @@ from src.apkmirror import APKmirror
 
 class Downloader:
     def __init__(self):
-        self.client = httpx.Client(
-            timeout=httpx.Timeout(30.0),
-            headers={
+        self.client = requests.Session()
+        self.client.headers.update(
+            {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0)"
                 + " Gecko/20100101 Firefox/112.0"
-            },
+            }
         )
 
     def _download(self, url: str, name: str) -> str:
@@ -26,10 +26,10 @@ class Downloader:
             logger.warning(f"{filepath} already exists, skipping")
             return filepath
 
-        with httpx.Client(follow_redirects=True).stream("GET", url) as res:
+        with self.client.get(url, stream=True) as res:
             res.raise_for_status()
             with open(filepath, "wb") as file:
-                for chunk in res.iter_bytes(chunk_size=8192):
+                for chunk in res.iter_content(chunk_size=8192):
                     file.write(chunk)
 
         logger.success(f"{filepath} downloaded")
@@ -40,7 +40,7 @@ class Downloader:
         logger.info("Downloading required resources")
 
         # Get the tool list
-        tools = httpx.get("https://releases.revanced.app/tools").json()
+        tools = self.client.get("https://releases.revanced.app/tools").json()
 
         # Download the tools
         download_repository = [

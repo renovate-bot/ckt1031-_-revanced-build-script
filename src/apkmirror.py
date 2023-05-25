@@ -1,15 +1,14 @@
-import httpx
+import requests
 from selectolax.lexbor import LexborHTMLParser
 
 
 class APKmirror:
     def __init__(self):
-        self.client = httpx.Client(
-            headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0)"
-                + " Gecko/20100101 Firefox/112.0"
-            },
-            follow_redirects=True,
+        self.client = requests.Session()
+        self.client.headers.update(
+            {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0"
+            }
         )
 
     def get_download_page(self, url: str) -> str:

@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 from loguru import logger
 
@@ -67,7 +68,7 @@ class Build(object):
 
         if not output:
             logger.error("An error occurred while running the Java program")
-            exit(1)
+            sys.exit(1)
 
         output_path = f"./revanced-cache/output-{target_app}_signed.apk"
 
