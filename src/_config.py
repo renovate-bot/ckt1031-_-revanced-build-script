@@ -21,4 +21,12 @@ app_reference = {
         "name": "com.reddit.frontpage",
         "apkmirror": "https://www.apkmirror.com/apk/redditinc/reddit/reddit",
     },
+    "tiktok": {
+        "name": "com.ss.android.ugc.trill",
+        "apkmirror": "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly",
+    },
+    "twitch": {
+        "name": "tv.twitch.android.app",
+        "apkmirror": "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch",
+    },
 }

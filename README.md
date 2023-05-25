@@ -29,7 +29,7 @@ This is a python script that will help you build the ReVanced Android app with n
 
 ## Arguments
 
-- `app` - The app you want to build. Available options are `youtube`, `youtube-music`, `twitter`, `reddit`
+- `app` - The app you want to build. Available options are `youtube`, `youtube-music`, `twitter`, `reddit`, `tiktok`, `twitch`
 
 ## How to build with GitHub Actions
 
