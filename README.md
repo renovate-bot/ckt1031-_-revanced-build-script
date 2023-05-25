@@ -4,36 +4,42 @@
 
 This is a python script that will help you build the ReVanced Android app with no hassle.
 
-## Features
-
-- Build ReVanced with no hassle
-- Automatically downloads the latest ReVanced APK
+- ✅ Build ReVanced with no hassle
+- ⚡ Automatically downloads everything you need
 
 ## Requirements
 
 - Python 3.6 or higher
-- Java Zulu 17
+- Java 17+ (Recommended: [Zulu](https://www.azul.com/downloads/?package=jdk))
 
 ## Usage
 
 - Clone this repository
 
-```bash
-git clone https://github.com/ckt1031/revanced-build-script.git
-```
+   ```bash
+   git clone https://github.com/ckt1031/revanced-build-script.git
+   ```
 
 - Run the script
 
-```bash
-pip install -r requirements.txt
-python main.py [app]
-```
-
-- The script will automatically download the latest ReVanced APK and build it for you
+   ```bash
+   pip install -r requirements.txt
+   python main.py [app]
+   ```
 
 ## Arguments
 
 - `app` - The app you want to build. Available options are `youtube`, `youtube-music`, `twitter`, `reddit`
+
+## How to build with GitHub Actions
+
+1. Go to the Actions tab in your repository.
+2. Click on "Run workflow" for the desired workflow.
+3. Provide the apps you want to build in the following format: `["youtube", "youtube-music"]`.
+
+   ![Screenshot](./screenshots/github-action-input.png)
+
+4. Click on the "Run workflow" button to start the build process.
 
 ## Credits
 
