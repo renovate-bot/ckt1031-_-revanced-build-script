@@ -7,7 +7,7 @@ on:
         description: "Choose the apps to build (comma separated) use [\"values\"]"
         required: true
       patches-to-exclude:
-        description: "Choose the patches to exclude (comma separated) use patch1,patch2 (Type none if you don't want to exclude any patches))"
+        description: "Choose the patches to exclude (comma separated) use patch1,patch2 (Type none if you don't want to exclude any patches)"
         required: true
       
 jobs:
