@@ -6,7 +6,10 @@ on:
       apps-to-build:
         description: "Choose the apps to build (comma separated) use [\"values\"]"
         required: true
-
+      patches-to-exclude:
+        description: "Choose the patches to exclude (comma separated) use patch1,patch2 (Type none if you don't want to exclude any patches))"
+        required: true
+      
 jobs:
   build-apps:
     name: Build Apps
@@ -37,7 +40,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build ${{ matrix.app }}
-        run: python main.py ${{ matrix.app }}
+        run: python main.py ${{ matrix.app }} --exclude-patches ${{ github.event.inputs.patches-to-exclude }}
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3

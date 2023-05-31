@@ -21,7 +21,7 @@ def main():
 
     build = Build(args)
 
-    build.runBuild()
+    build.run_build()
 
 
 if __name__ == "__main__":

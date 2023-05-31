@@ -16,14 +16,14 @@ class Validation:
 
             # Check if the patches are valid
             for _patch in args_patch.split(","):
-                if _patch.strip() not in patches:
-                    logger.error(f"Invalid patch: {_patch.strip()}")
+                # Check if the patch is valid
+                if _patch.strip() not in [p["name"] for p in patches]:
+                    logger.error(f"Invalid patch name: {_patch}")
 
                     # Send the available patches
-                    logger.log(
+                    logger.error(
                         f"Available patches: {', '.join([p['name'] for p in patches])}"
                     )
-
                     exit(1)
 
     def check_keystore(self):

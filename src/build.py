@@ -21,17 +21,24 @@ class Build(object):
         self.args = args
         self.check_java_version()
         self.download_files = Downloader().download_required()
+        self.exclude_patches: str | None = self.args.exclude_patches
 
-        # Validate the patches from exclude_patches
-        if self.args.exclude_patches:
-            Validation().check_patch_from_args(self.args.exclude_patches)
+        # Validate the patches from exclude_patches, or if lowercase "none" is passed, skip
+        if self.exclude_patches is not None and self.exclude_patches.lower() != "none":
+            Validation().check_patch_from_args(self.exclude_patches)
 
-    def runBuild(self):
+    def run_build(self):
         target_app = self.args.app_name.lower().strip()
 
         input_apk_filepath = Downloader().download_apk(target_app)
 
         logger.info(f"Running build for {target_app}:")
+
+        # patch1,patch2 to --exclude=patch1 --exclude=patch2
+        exclude_patches = sum(
+            [["--exclude", s.strip()] for s in self.args.exclude_patches.split(",")],
+            [],
+        )
 
         # Run the build command
         process = subprocess.Popen(
@@ -49,6 +56,7 @@ class Build(object):
                 self.download_files["revanced-integrations"],
                 "--keystore",
                 config["keystore_path"],
+                *exclude_patches,
             ]
             + sum(
                 [
