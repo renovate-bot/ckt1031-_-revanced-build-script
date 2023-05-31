@@ -14,7 +14,7 @@ def main():
         "--exclude-patches",
         help="Exclude patches from build",
         type=str,
-        default="",
+        default="none",
     )
 
     args = parser.parse_args()
