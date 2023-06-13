@@ -21,7 +21,9 @@ class APKmirror:
         parser = LexborHTMLParser(res.text)
 
         version = parser.css_first(
-            "div.p-relative:nth-child(4) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > h5:nth-child(1) > a:nth-child(1)"
+            "div.p-relative:nth-child(4) > div:nth-child(2) > div:nth-child(1) >"
+            + " div:nth-child(1) > div:nth-child(2) >"
+            + " div:nth-child(1) > h5:nth-child(1) > a:nth-child(1)"
         ).text()
 
         download_link = parser.css_first(".downloadLink").attributes["href"]

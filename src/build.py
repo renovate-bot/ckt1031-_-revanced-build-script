@@ -23,7 +23,7 @@ class Build(object):
         self.download_files = Downloader().download_required()
         self.exclude_patches: str | None = self.args.exclude_patches
 
-        # Validate the patches from exclude_patches, or if lowercase "none" is passed, skip
+        # Validate the patches, or if lowercase "none" is passed, skip
         if self.exclude_patches is not None and self.exclude_patches.lower() != "none":
             Validation().check_patch_from_args(self.exclude_patches)
 
